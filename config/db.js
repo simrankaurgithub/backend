@@ -8,6 +8,8 @@ const connectDB = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
+      connectTimeoutMS: 60000,  // 60 seconds
+      socketTimeoutMS: 60000,   // 60 seconds
     });
     console.log("mongodb connection success!");
   } catch (err) {
