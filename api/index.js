@@ -20,17 +20,17 @@ const currencyRoutes = require("../routes/currencyRoutes");
 const languageRoutes = require("../routes/languageRoutes");
 const notificationRoutes = require("../routes/notificationRoutes");
 const { isAuth, isAdmin } = require("../config/auth");
-const {
-  getGlobalSetting,
-  getStoreCustomizationSetting,
-} = require("../lib/notification/setting");
+// const {
+//   getGlobalSetting,
+//   getStoreCustomizationSetting,
+// } = require("../lib/notification/setting");
 
 connectDB();
 const app = express();
 
 // We are using this for the express-rate-limit middleware
 // See: https://github.com/nfriedly/express-rate-limit
-app.enable('trust proxy');
+// app.enable('trust proxy');
 app.set("trust proxy", 1);
 
 app.use(express.json({ limit: "4mb" }));
@@ -75,63 +75,63 @@ app.get("*", (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-const server = http.createServer(app);
+// const server = http.createServer(app);
 
 app.listen(PORT, () => console.log(`server running on port ${PORT}`));
 
-app.listen(PORT, () => console.log(`server running on port ${PORT}`));
+// app.listen(PORT, () => console.log(`server running on port ${PORT}`));
 
 // set up socket
-const io = new Server(server, {
-  cors: {
-    origin: [
-      "http://localhost:3000",
-      "http://localhost:4100",
-      "https://admin-kachabazar.vercel.app",
-      "https://dashtar-admin.vercel.app",
-      "https://kachabazar-store.vercel.app",
-      "https://kachabazar-admin.netlify.app",
-      "https://dashtar-admin.netlify.app",
-      "https://kachabazar-store-nine.vercel.app",
-    ], //add your origin here instead of this
-    methods: ["PUT", "GET", "POST", "DELETE", "PATCH", "OPTIONS"],
-    credentials: false,
-    transports: ["websocket"],
-  },
-});
+// const io = new Server(server, {
+//   cors: {
+//     origin: [
+//       "http://localhost:3000",
+//       "http://localhost:4100",
+//       "https://admin-kachabazar.vercel.app",
+//       "https://dashtar-admin.vercel.app",
+//       "https://kachabazar-store.vercel.app",
+//       "https://kachabazar-admin.netlify.app",
+//       "https://dashtar-admin.netlify.app",
+//       "https://kachabazar-store-nine.vercel.app",
+//     ], //add your origin here instead of this
+//     methods: ["PUT", "GET", "POST", "DELETE", "PATCH", "OPTIONS"],
+//     credentials: false,
+//     transports: ["websocket"],
+//   },
+// });
 
-io.on("connection", (socket) => {
-  console.log(`Socket ${socket.id} connected!`);
+// io.on("connection", (socket) => {
+//   // console.log(`Socket ${socket.id} connected!`);
 
-  socket.on("notification", async (data) => {
-    console.log("data", data);
-    try {
-      let updatedData = data;
+//   socket.on("notification", async (data) => {
+//     console.log("data", data);
+//     try {
+//       let updatedData = data;
 
-      if (data?.option === "storeCustomizationSetting") {
-        const storeCustomizationSetting = await getStoreCustomizationSetting(
-          data
-        );
-        updatedData = {
-          ...data,
-          storeCustomizationSetting: storeCustomizationSetting,
-        };
-      }
-      if (data?.option === "globalSetting") {
-        const globalSetting = await getGlobalSetting(data);
-        updatedData = {
-          ...data,
-          globalSetting: globalSetting,
-        };
-      }
-      io.emit("notification", updatedData);
-    } catch (error) {
-      console.error("Error handling notification:", error);
-    }
-  });
+//       if (data?.option === "storeCustomizationSetting") {
+//         const storeCustomizationSetting = await getStoreCustomizationSetting(
+//           data
+//         );
+//         updatedData = {
+//           ...data,
+//           storeCustomizationSetting: storeCustomizationSetting,
+//         };
+//       }
+//       if (data?.option === "globalSetting") {
+//         const globalSetting = await getGlobalSetting(data);
+//         updatedData = {
+//           ...data,
+//           globalSetting: globalSetting,
+//         };
+//       }
+//       io.emit("notification", updatedData);
+//     } catch (error) {
+//       console.error("Error handling notification:", error);
+//     }
+//   });
 
-  socket.on("disconnect", () => {
-    console.log(`Socket ${socket.id} disconnected!`);
-  });
-});
-server.listen(PORT, () => console.log(`server running on port ${PORT}`));
+//   socket.on("disconnect", () => {
+//     console.log(`Socket ${socket.id} disconnected!`);
+//   });
+// });
+// server.listen(PORT, () => console.log(`server running on port ${PORT}`));
